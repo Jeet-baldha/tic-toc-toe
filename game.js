@@ -8,13 +8,6 @@ for(let i =0;i<3;i++){
     }
 }
 
-for(let i =0;i<3;i++){
-
-    for (let j = 0; j < 3; j++) {
-        console.log(arr[i][j]+ " ");
-    }
-    console.log('\n');
-}
 
 var visited = Array.apply(null, Array(9)).map(function() { return 0 });
 var remainingBox = 9;
@@ -67,21 +60,19 @@ function checkAns(n){
         location.reload();
     }
 
-    // check col
-
     if(checkCol(col)){
         $('#res').text(isX    +" is win");
         location.reload();
     }
 
    if(checkDigonlLeft()){
-    $('#res').text(isX    +" is win");
-    location.reload();
+        $('#res').text(isX    +" is win");
+        location.reload();
    }
 
    if(checkDigonlRight()){
-    $('#res').text(isX    +" is win");
-    location.reload();
+        $('#res').text(isX    +" is win");
+        location.reload();
    }
     
 
@@ -104,7 +95,7 @@ function checkCol(col){
      // check row
    for(let i = 0;i<3;i++){
 
-    if(visited[i][col] == 0 ||arr[i][col] != isX){
+    if(visited[i][col] == 1 || arr[i][col] != isX){
         return false;
     }
 
@@ -137,7 +128,7 @@ function checkDigonlRight() {
     let row = 0;
     let col = 3;
 
-    while(visited[row][col] === 0 ||row < 3 && col >= 0){
+    while(visited[row][col] === 0 || row < 3 && col >= 0){
 
         if(arr[row][col] != isX){
             return false;
