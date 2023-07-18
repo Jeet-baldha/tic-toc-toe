@@ -19,70 +19,84 @@ var isX = true;
 for(let i =0;i<boxes.length;i++){
 
     $(boxes[i]).click(function () {
+        
+        if(remainingBox <= 0){
+            $('#res').text("Draw");
+            console.log($('#res'));
+            setTimeout(function(){
+                location.reload();
+            },1000);
+        }
 
-        if(isX && !visited[i]){
+        if(!isX && !visited[i]){
             $(this).text('X');
-            checkAns(i);
+            checkAns(i,1);
             isX = !isX;
         }
         else if(!visited[i]){
             $(this).text('O');
-            checkAns(i);
+            checkAns(i,0);
             isX = !isX
         }
 
         remainingBox--;
-
-        if(remainingBox == 0){
-
-            setTimeout(function(){
-                $('#res').text("Draw");
-                location.reload();
-               },500);
-
-        }
         visited[i] =1;
     });
 
 }
 
 
-function checkAns(n){
+function checkAns(index,num){
 
 
-    let row = Math.floor(n/3);
-    let col = n%3;
-    arr[row][col] = isX
+    let row = Math.floor(index/3);
+    let col = index%3;
+    arr[row][col] = num
     console.log(arr[row][col]);
 
-    if(checkRow(row)){
-        $('#res').text(isX    +" is win");
-        location.reload();
+    if(checkRow(row,num)){
+        $('#res').text("player " + (num+1) + " is win");
+        console.log($('#res'));
+        setTimeout(function(){
+            location.reload();
+        },1000);
     }
 
-    if(checkCol(col)){
-        $('#res').text(isX    +" is win");
-        location.reload();
+    
+
+    if(checkCol(col,num)){
+        $('#res').text("player " + (num+1) + " is win");
+        console.log($('#res'));
+        setTimeout(function(){
+            location.reload();
+        },1000);
     }
 
-   if(checkDigonlLeft()){
-        $('#res').text(isX    +" is win");
-        location.reload();
+   if(checkDigonlLeft(num)){
+        $('#res').text("player " + (num+1) + " is win");
+        setTimeout(function(){
+            location.reload();
+        },1000);
    }
 
-   if(checkDigonlRight()){
-        $('#res').text(isX    +" is win");
-        location.reload();
+   if(checkDigonlRight(num)){
+        $('#res').text("player " + (num+1) + " is win");
+        setTimeout(function(){
+            location.reload();
+        },1000);
    }
     
 
 }
 
-function checkRow(row) {
+function checkRow(row,n) {
     
     for(let i = 0;i<3;i++){
 
-        if(visited[row][i] == 0 ||arr[row][i] != isX){
+        if( arr[row][i] === n){
+            continue;
+        }
+        else{
             return false;
         }
         
@@ -91,53 +105,48 @@ function checkRow(row) {
        return true;
 }
 
-function checkCol(col){
+function checkCol(col,n){
      // check row
    for(let i = 0;i<3;i++){
 
-    if(visited[i][col] == 1 || arr[i][col] != isX){
+    if(arr[i][col] === n){
+        continue;
+    }
+    else{
         return false;
     }
-
-
-    return true;
-   }
+}
+return true;
 }
 
-function checkDigonlLeft() {
+function checkDigonlLeft(num) {
     
-    let row = 0;
-    let col = 0;
 
-    while(row < 3 && col < 3){
-
-        if(visited[row][col] == 0 || arr[row][col] != isX){
+    for(let i =0;i<3;i++){
+        if( arr[i][i] === num){
+            continue;
+        }
+        else{
             return false;
         }
-
-        row++;
-        col++;
-
     }
 
     return true;
 
 }
-function checkDigonlRight() {
-    
-    let row = 0;
-    let col = 3;
+function checkDigonlRight(num) {
 
-    while(visited[row][col] === 0 || row < 3 && col >= 0){
+    let col = 2;
+    for(let row = 0;row<3;row++){
 
-        if(arr[row][col] != isX){
+        if(arr[row][col--] === num){
+            continue;
+        }
+        else{
             return false;
         }
-        row++;
-        col--;
-
     }
 
-    return true;
+    return  true;
 
 }
